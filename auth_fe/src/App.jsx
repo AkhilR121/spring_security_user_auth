@@ -5,11 +5,15 @@ import { router } from "./router/routes.jsx";
 
 const queryClient = new QueryClient();
 
+function AppContent() {
+  return <RouterProvider router={router} />;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <AuthProvider> */}
-        <RouterProvider router={router} />
+        <AppContent />
       {/* </AuthProvider> */}
     </QueryClientProvider>
   );
