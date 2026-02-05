@@ -1,4 +1,4 @@
-import { LogLevel, PublicClientApplication, type RedirectRequest } from "@azure/msal-browser";
+import { LogLevel } from "@azure/msal-browser";
 
 export const msalConfig = {
     auth: {
@@ -19,10 +19,10 @@ export const msalConfig = {
     system: {
         loggerOptions: {
             loggerCallback: (
-                level: LogLevel,
-                message: string,
-                containsPii: boolean
-            ): void => {
+                level,
+                message,
+                containsPii
+            ) => {
                 if (containsPii) {
                     return;
                 }
@@ -57,7 +57,7 @@ export const msalConfig = {
 };
 
 
-export const loginRequest: RedirectRequest = {
+export const loginRequest = {
   scopes: [
     'openid', 
     'profile', 

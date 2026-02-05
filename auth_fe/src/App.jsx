@@ -1,21 +1,16 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { routeTree } from "./routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider } from "react-router-dom";
+// import { AuthProvider } from "./hooks/useAuth.js";
+import { router } from "./router/routes.jsx";
 
-// Create the router with the route tree
-const router = createRouter({ routeTree });
-
-function AppContent() {
-  const isAuthenticated = false;
-  // if()
-  return <RouterProvider router={router} />;
-}
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
+      {/* <AuthProvider> */}
+        <RouterProvider router={router} />
+      {/* </AuthProvider> */}
     </QueryClientProvider>
   );
 }

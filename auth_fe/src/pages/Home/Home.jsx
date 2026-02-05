@@ -1,4 +1,4 @@
-const HomeComponent = () => {
+export const HomeComponent = () => {
   return <>Home Component</>;
 };
 

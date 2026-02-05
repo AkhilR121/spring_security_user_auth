@@ -1,7 +1,9 @@
-const RootLayout = ({children}) =>{
+import { Outlet } from "react-router-dom";
+
+const RootLayout = () => {
     return (
-        <div style={{height: "100px", width: "100px", border: "2px solid red"}}>
-            {children}
+        <div>
+            <Outlet/>
         </div>
     );
 } 
