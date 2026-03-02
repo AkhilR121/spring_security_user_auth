@@ -1,11 +1,15 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+
+interface CustomRequest extends Request {
+    token?: string;
+}
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/api', (req, res) => {
+app.get('/api', (req: Request, res: Response) => {
     console.log('Route /api hit');
     res.json({ 
         message: "Welcome to the API!" 
@@ -14,8 +18,8 @@ app.get('/api', (req, res) => {
 
 // verifyToken is the middleware function
 
-app.post('/api/posts', verifyToken, (req, res) => {
-    jwt.verify(req.token, 'secretkey', (err, authData) => {
+app.post('/api/posts', verifyToken, (req: CustomRequest, res: Response) => {
+    jwt.verify(req.token!, 'secretkey', (err: any, authData: any) => {
         if (err) {
             return res.status(403).json({ message: 'Token is required' });
         } else {
@@ -27,19 +31,19 @@ app.post('/api/posts', verifyToken, (req, res) => {
     })
 })
 
-app.post('/api/signin', (req, res) => {
+app.post('/api/signin', (req: Request, res: Response) => {
     const user = {
         id: 1,
         username: 'akhil',
         email: 'akhil@gmail.com'
     }
 
-    jwt.sign({ user }, 'secretkey', (err, token) => {
+    jwt.sign({ user }, 'secretkey', (err: any, token?: string) => {
         res.json({ token });
     })
 })
 
-function verifyToken(req, res, next) {
+function verifyToken(req: CustomRequest, res: Response, next: NextFunction) {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) {
         return res.status(403).json({ message: 'Token is required' });
