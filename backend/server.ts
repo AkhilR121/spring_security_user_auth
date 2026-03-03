@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 interface CustomRequest extends Request {
     token?: string;
@@ -8,6 +9,7 @@ interface CustomRequest extends Request {
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/api', (req: Request, res: Response) => {
     console.log('Route /api hit');
