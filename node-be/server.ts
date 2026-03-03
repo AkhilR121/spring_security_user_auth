@@ -1,10 +1,17 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import mysql from 'mysql2';
+import { CustomRequest } from './model/model';
 
-interface CustomRequest extends Request {
-    token?: string;
-}
+const pool = mysql.createPool({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'root',
+    database: 'auth'
+}).promise()
+
+const result = pool.query("SELECT * FROM notes")
 
 const app = express();
 
