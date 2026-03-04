@@ -16,7 +16,6 @@ const pool = mysql.createPool({
 async function getUserCredentials() {
     return await pool.query("SELECT * FROM user_credentials")
 }
-console.log("User Credentials: ", getUserCredentials().then((res) => console.log(res)));
 
 const app = express();
 
