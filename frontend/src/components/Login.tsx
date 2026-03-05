@@ -1,4 +1,4 @@
-export function Login(props: { setIsAuthPage: (page: string) => void }) {
+export function Login(props: { setAuthPage: (page: string) => void }) {
   return (
     <section className="p-6">
       <main className="*:flex *:flex-col *:gap-2">
@@ -11,7 +11,7 @@ export function Login(props: { setIsAuthPage: (page: string) => void }) {
           <input className="p-2 border rounded-2xl outline-none" type="password" id="password" />
         </div>
       </main>
-      <button onClick={() => props.setIsAuthPage('signup')} className="text-blue-700 underline self-start w-full">New User?</button>
+      <button onClick={() => props.setAuthPage('signup')} className="text-blue-700 underline self-start w-full cursor-pointer">New User?</button>
       <footer>
         <button className="flex items-center justify-center w-full">Login</button>
       </footer>
