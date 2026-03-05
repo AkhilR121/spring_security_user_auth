@@ -1,4 +1,12 @@
+import { useForm } from "react-hook-form";
+
 export function Login(props: { setAuthPage: (page: string) => void }) {
+  const { register, formState: { errors }, handleSubmit } = useForm({
+    defaultValues: {
+      user_name: "",
+      password: "",
+    },
+  });
   return (
     <section className="p-6">
       <main className="*:flex *:flex-col *:gap-2">
