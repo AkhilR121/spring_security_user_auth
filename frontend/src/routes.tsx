@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 import { RootLayout } from "./layouts/RootLayout";
 import { Home } from "./pages/Home";
 import { AuthPage } from "./pages/AuthPage";
@@ -10,13 +10,14 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/home" replace />,
+        element: <Navigate to="/login" replace />,
       },
       {
         path: "home",
         element: <Home />,
-        // loader: homeLoader,
-        // action: homeAction,
+        loader: async () => {
+          throw redirect('/login');
+        },
       },
     ],
   },
