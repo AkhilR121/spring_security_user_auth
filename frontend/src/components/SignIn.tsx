@@ -12,15 +12,23 @@ export function SignUp() {
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input className="p-2 border rounded-2xl outline-none" type="password" />
+          <input
+            className="p-2 border rounded-2xl outline-none"
+            type="password"
+          />
         </div>
         <div>
           <label htmlFor="confirm-password">Confirm Password</label>
-          <input className="p-2 border rounded-2xl outline-none" type="password" />
+          <input
+            className="p-2 border rounded-2xl outline-none"
+            type="password"
+          />
         </div>
       </main>
       <footer>
-        <button className="flex items-center justify-center w-full py-3 cursor-pointer">SignIn</button>
+        <button className="flex items-center justify-center w-full py-3 cursor-pointer">
+          SignIn
+        </button>
       </footer>
     </section>
   );
