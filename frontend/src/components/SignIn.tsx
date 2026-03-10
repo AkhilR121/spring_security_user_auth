@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useSubmit } from "react-router-dom";
 
 type SignUpFormData = {
   user_name: string;
@@ -12,7 +13,7 @@ export function SignUp() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<SignUpFormData>({
     defaultValues: {
       user_name: "",
       email: "",
@@ -21,8 +22,15 @@ export function SignUp() {
     },
   });
 
+  const submit = useSubmit();
+
   const onSubmit = (data: SignUpFormData) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append('user_name', data.user_name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('phone_num', data.phone_num);
+    submit(formData, { method: 'post', action: '/signin' });
   };
 
   return (
