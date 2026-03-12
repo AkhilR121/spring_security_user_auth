@@ -3,7 +3,7 @@ import { RootLayout } from "./layouts/RootLayout";
 import { Home } from "./pages/Home";
 import { postLoginData, postSignUpData } from "./api/signUp";
 import { Login } from "./components/Login";
-import { SignUp } from "./components/SignIn";
+import { SignUp } from "./components/SignUp";
 
 export const router = createBrowserRouter([
   {

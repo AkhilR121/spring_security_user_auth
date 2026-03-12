@@ -25,9 +25,9 @@ export function Login() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center"
+      className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center border"
     >
-      <main className="*:flex *:flex-col *:gap-2">
+      <main className="*:py-3">
         <div>
           <input
             {...register("user_name", { required: true, minLength: 3 })}
@@ -58,7 +58,7 @@ export function Login() {
           )}
         </div>
       </main>
-      <Link to={"/signup"} className="text-blue-700 w-full cursor-pointer">
+      <Link to={"/signup"} className="text-blue-700 w-full cursor-pointer ml-2">
         New User?
       </Link>
       <footer>

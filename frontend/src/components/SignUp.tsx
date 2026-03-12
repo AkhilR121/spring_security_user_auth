@@ -24,7 +24,7 @@ export function SignUp() {
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("phone_num", data.phone_num);
-    submit(formData, { method: "post", action: "/signin" });
+    submit(formData, { method: "post", action: "/signup" });
   };
 
   return (

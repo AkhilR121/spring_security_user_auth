@@ -3,47 +3,10 @@ require("dotenv").config();
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import mysql from "mysql2";
 import bcrypt from "bcrypt";
 import { CustomRequest } from "./model/model";
-
-const pool = mysql
-  .createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB,
-  })
-  .promise();
-
-async function getUserByUsername(user_name: string) {
-  const [rows] = await pool.query(
-    "SELECT * FROM user_credentials WHERE user_name = ?",
-    [user_name],
-  );
-  return rows as any[];
-}
-
-async function postUserCredentials(params: {
-  id: string;
-  user_name: string;
-  password: string;
-  phone_num: string;
-  email: string;
-}) {
-  const [result] = await pool.query(
-    "INSERT INTO user_credentials (id, user_name, email, password, phone_num) VALUES (?, ?, ?, ?, ?)",
-    [
-      params.id,
-      params.user_name,
-      params.email,
-      params.password,
-      params.phone_num,
-    ],
-  );
-
-  return result;
-}
+import { getUserByUsername, postUserCredentials } from "./queries";
+import { verifyToken } from "./middleware/verifyToken";
 
 const app = express();
 
@@ -112,17 +75,17 @@ app.post("/api/login", async (req: Request, res: Response) => {
   );
 });
 
-function verifyToken(req: CustomRequest, res: Response, next: NextFunction) {
-  const bearerHeader = req.headers["authorization"];
-  if (!bearerHeader) {
-    return res.status(403).json({ message: "Token is required" });
-  } else {
-    const bearer = bearerHeader.split(" ");
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-    next();
-  }
-}
+// function verifyToken(req: CustomRequest, res: Response, next: NextFunction) {
+//   const bearerHeader = req.headers["authorization"];
+//   if (!bearerHeader) {
+//     return res.status(403).json({ message: "Token is required" });
+//   } else {
+//     const bearer = bearerHeader.split(" ");
+//     const bearerToken = bearer[1];
+//     req.token = bearerToken;
+//     next();
+//   }
+// }
 
 app.listen(5000, () => {
   console.log(`Server is running on port ${5000}`);
