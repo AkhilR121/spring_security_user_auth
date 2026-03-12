@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useSubmit } from "react-router-dom";
+import { Link, useSubmit } from "react-router-dom";
 
-export function Login(props: { setAuthPage: (page: string) => void }) {
+export function Login() {
   const {
     register,
     handleSubmit,
+    formState: { errors },
   } = useForm({
     defaultValues: {
       user_name: "",
@@ -22,37 +23,39 @@ export function Login(props: { setAuthPage: (page: string) => void }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center">
       <main className="*:flex *:flex-col *:gap-2">
         <div>
-          <label htmlFor="user_name">Username</label>
           <input
-            {...register("user_name", { required: true })}
+            {...register("user_name", { required: true, minLength: 3 })}
             className="p-2 border rounded-2xl outline-none"
             type="text"
             id="user_name"
+            placeholder="Username"
           />
+          {errors.user_name?.type === 'minLength' && <p className="text-red-500">Username must be at least 3 characters</p>}
+          {errors.user_name?.type === 'required' && <p className="text-red-500">This is required field*</p>}
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
             {...register("password", { required: true })}
             className="p-2 border rounded-2xl outline-none"
             type="password"
             id="password"
+            placeholder="Password"
           />
+          {errors.password?.type === 'required' && <p className="text-red-500">This is required field*</p>}
         </div>
       </main>
-      <button
-        onClick={() => props.setAuthPage("signup")}
-        className="text-blue-700 underline self-start w-full cursor-pointer"
+      <Link to={"/signup"}
+        className="text-blue-700 w-full cursor-pointer"
       >
         New User?
-      </button>
+      </Link>
       <footer>
         <button
           type="submit"
-          className="flex items-center justify-center w-full"
+          className="flex items-center justify-center w-full cursor-pointer p-3 border"
         >
           Login
         </button>

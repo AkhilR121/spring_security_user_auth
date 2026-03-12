@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 import { RootLayout } from "./layouts/RootLayout";
 import { Home } from "./pages/Home";
-import { AuthPage } from "./pages/AuthPage";
 import { postLoginData, postSignUpData } from "./api/signUp";
+import { Login } from "./components/Login";
+import { SignUp } from "./components/SignIn";
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +18,6 @@ export const router = createBrowserRouter([
         path: "home",
         element: <Home />,
         loader: async () => {
-          // Check if user is authenticated
           const token = localStorage.getItem("token");
           if (!token) {
             return redirect("/login");
@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <AuthPage />,
+    element: <Login />,
     action: async ({ request }) => {
       const formData = await request.formData();
       try {
@@ -47,7 +47,8 @@ export const router = createBrowserRouter([
     },
   },
   {
-    path: "/signin",
+    path: "/signup",
+    element: <SignUp />,
     action: async ({ request }) => {
       const formData = await request.formData();
       try {
