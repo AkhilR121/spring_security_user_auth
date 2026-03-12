@@ -20,9 +20,11 @@ export async function postSignUpData(formData: FormData) {
   return result;
 }
 
-
-export async function postLoginData(user_name:string, password:string) {
-  const response = await axios.post("http://localhost:5000/api/login", { user_name, password });
+export async function postLoginData(user_name: string, password: string) {
+  const response = await axios.post("http://localhost:5000/api/login", {
+    user_name,
+    password,
+  });
   const result = response.data;
   console.log("LoginData: ", result);
   localStorage.setItem("token", result.token);

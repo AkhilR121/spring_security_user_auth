@@ -20,15 +20,18 @@ export function SignUp() {
 
   const onSubmit = (data: SignUpFormData) => {
     const formData = new FormData();
-    formData.append('user_name', data.user_name);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('phone_num', data.phone_num);
-    submit(formData, { method: 'post', action: '/signin' });
+    formData.append("user_name", data.user_name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("phone_num", data.phone_num);
+    submit(formData, { method: "post", action: "/signin" });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center border">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center border"
+    >
       <main className="*:py-3">
         <div>
           <input
@@ -37,7 +40,9 @@ export function SignUp() {
             type="email"
             placeholder="Email"
           />
-          {errors.email?.type === 'required' && <p className="text-red-500">This is required field*</p>}
+          {errors.email?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
         </div>
         <div>
           <input
@@ -46,8 +51,14 @@ export function SignUp() {
             type="text"
             placeholder="Username"
           />
-          {errors.user_name?.type === 'required' && <p className="text-red-500">This is required field*</p>}
-          {errors.user_name?.type === 'minLength' && <p className="text-red-500">Username must be at least 3 characters*</p>}
+          {errors.user_name?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
+          {errors.user_name?.type === "minLength" && (
+            <p className="text-red-500">
+              Username must be at least 3 characters*
+            </p>
+          )}
         </div>
         <div>
           <input
@@ -56,8 +67,12 @@ export function SignUp() {
             type="text"
             placeholder="Phone Number"
           />
-          {errors.phone_num?.type === 'required' && <p className="text-red-500">This is required field*</p>}
-          {errors.phone_num?.type === 'maxLength' && <p className="text-red-500">Phone number must be 10 digits*</p>}
+          {errors.phone_num?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
+          {errors.phone_num?.type === "maxLength" && (
+            <p className="text-red-500">Phone number must be 10 digits*</p>
+          )}
         </div>
         <div>
           <input
@@ -66,7 +81,9 @@ export function SignUp() {
             type="password"
             placeholder="Password"
           />
-          {errors.password?.type === 'required' && <p className="text-red-500">This is required field*</p>}
+          {errors.password?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
         </div>
       </main>
       <footer>

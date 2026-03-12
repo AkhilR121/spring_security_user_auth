@@ -13,17 +13,20 @@ export function Login() {
     },
   });
 
-    const submit = useSubmit();
+  const submit = useSubmit();
 
-  const onSubmit = (data: {user_name: string, password: string}) => {
+  const onSubmit = (data: { user_name: string; password: string }) => {
     const formData = new FormData();
-    formData.append('user_name', data.user_name);
-    formData.append('password', data.password);
-    submit(formData, { method: 'post', action: '/login' });
+    formData.append("user_name", data.user_name);
+    formData.append("password", data.password);
+    submit(formData, { method: "post", action: "/login" });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center"
+    >
       <main className="*:flex *:flex-col *:gap-2">
         <div>
           <input
@@ -33,8 +36,14 @@ export function Login() {
             id="user_name"
             placeholder="Username"
           />
-          {errors.user_name?.type === 'minLength' && <p className="text-red-500">Username must be at least 3 characters</p>}
-          {errors.user_name?.type === 'required' && <p className="text-red-500">This is required field*</p>}
+          {errors.user_name?.type === "minLength" && (
+            <p className="text-red-500">
+              Username must be at least 3 characters
+            </p>
+          )}
+          {errors.user_name?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
         </div>
         <div>
           <input
@@ -44,12 +53,12 @@ export function Login() {
             id="password"
             placeholder="Password"
           />
-          {errors.password?.type === 'required' && <p className="text-red-500">This is required field*</p>}
+          {errors.password?.type === "required" && (
+            <p className="text-red-500">This is required field*</p>
+          )}
         </div>
       </main>
-      <Link to={"/signup"}
-        className="text-blue-700 w-full cursor-pointer"
-      >
+      <Link to={"/signup"} className="text-blue-700 w-full cursor-pointer">
         New User?
       </Link>
       <footer>
