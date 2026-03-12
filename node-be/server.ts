@@ -3,7 +3,8 @@ require("dotenv").config();
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import mysql, { ResultSetHeader } from "mysql2";
+import mysql from "mysql2";
+import bcrypt from "bcrypt";
 import { CustomRequest } from "./model/model";
 
 const pool = mysql
@@ -17,6 +18,14 @@ const pool = mysql
 
 async function getUserCredentials() {
   return await pool.query("SELECT * FROM user_credentials");
+}
+
+async function getUserByUsername(user_name: string) {
+  const [rows] = await pool.query(
+    "SELECT * FROM user_credentials WHERE user_name = ?",
+    [user_name],
+  );
+  return rows as any[];
 }
 
 async function postUserCredentials(params: {
@@ -52,7 +61,6 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 // verifyToken is the middleware function
-
 app.post("/api/posts", verifyToken, (req: CustomRequest, res: Response) => {
   jwt.verify(req.token!, "secretkey", (err: any, authData: any) => {
     if (err) {
@@ -66,9 +74,9 @@ app.post("/api/posts", verifyToken, (req: CustomRequest, res: Response) => {
   });
 });
 
-app.post("/api/signin", (req: Request, res: Response) => {
+app.post("/api/signup", (req: Request, res: Response) => {
   const { user_name, password, phone_num, email } = req.body;
-  const id = Math.floor(Math.random() * 100).toString();
+  const id = Math.floor(Math.random() * 1000).toString();
   //@TODO: Before posting, need to check if the user already exists or not
   postUserCredentials({ id, user_name, password, phone_num, email });
 
@@ -79,9 +87,36 @@ app.post("/api/signin", (req: Request, res: Response) => {
     email,
   };
 
-  jwt.sign({ user }, "secretkey", (err: any, token?: string) => {
-    res.json({ token });
-  });
+  res.json({ message: "User Registered Successfully", success: true });
+});
+
+app.post("/api/login", async (req: Request, res: Response) => {
+  const { user_name, password } = req.body;
+  console.log("Login attempt:", { user_name, password });
+
+  const users = await getUserByUsername(user_name);
+  console.log("Users found:", users);
+
+  if (users.length === 0) {
+    return res.status(401).json({ message: "Invalid Credentials" });
+  }
+
+  const user = users[0];
+  console.log("User password:", user.password, "Input password:", password);
+  if (user.password !== password) {
+    return res.status(401).json({ message: "Invalid Credentials" });
+  }
+
+  jwt.sign(
+    { userId: user.id, user_name: user.user_name },
+    "secretkey",
+    (err: any, token?: string) => {
+      if (err) {
+        return res.status(500).json({ message: "Token generation failed" });
+      }
+      res.json({ token });
+    },
+  );
 });
 
 function verifyToken(req: CustomRequest, res: Response, next: NextFunction) {
