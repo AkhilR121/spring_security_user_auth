@@ -16,10 +16,6 @@ const pool = mysql
   })
   .promise();
 
-async function getUserCredentials() {
-  return await pool.query("SELECT * FROM user_credentials");
-}
-
 async function getUserByUsername(user_name: string) {
   const [rows] = await pool.query(
     "SELECT * FROM user_credentials WHERE user_name = ?",
@@ -92,17 +88,14 @@ app.post("/api/signup", (req: Request, res: Response) => {
 
 app.post("/api/login", async (req: Request, res: Response) => {
   const { user_name, password } = req.body;
-  console.log("Login attempt:", { user_name, password });
 
   const users = await getUserByUsername(user_name);
-  console.log("Users found:", users);
 
   if (users.length === 0) {
     return res.status(401).json({ message: "Invalid Credentials" });
   }
 
   const user = users[0];
-  console.log("User password:", user.password, "Input password:", password);
   if (user.password !== password) {
     return res.status(401).json({ message: "Invalid Credentials" });
   }
