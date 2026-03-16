@@ -1,5 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
+import { AuthProvider } from "./components/AuthProvider";
 
 function App() {
   const isAuthenticated = true;
@@ -9,9 +10,11 @@ function App() {
   }
 
   return (
-    <div className="w-screen h-screen border border-amber-500">
-      <RouterProvider router={router} />
-    </div>
+    <AuthProvider>
+      <div className="w-screen h-screen border border-amber-500">
+        <RouterProvider router={router} />
+      </div>
+    </AuthProvider>
   );
 }
 

@@ -25,7 +25,7 @@ export function Login() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="m-auto mt-72 p-6 w-80 flex flex-col justify-center items-center border"
+      className="m-auto p-6 w-80 flex flex-col justify-center items-center border"
     >
       <main className="*:py-3">
         <div>

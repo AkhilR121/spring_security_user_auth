@@ -20,7 +20,7 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 // verifyToken is the middleware function
-app.post("/api/posts", verifyToken, (req: CustomRequest, res: Response) => {
+app.post("/api/auth-test", verifyToken, (req: CustomRequest, res: Response) => {
   jwt.verify(req.token!, "secretkey", (err: any, authData: any) => {
     if (err) {
       return res.status(403).json({ message: "Token is required" });
@@ -66,6 +66,7 @@ app.post("/api/login", async (req: Request, res: Response) => {
   jwt.sign(
     { userId: user.id, user_name: user.user_name },
     "secretkey",
+    { expiresIn: 60 },
     (err: any, token?: string) => {
       if (err) {
         return res.status(500).json({ message: "Token generation failed" });
