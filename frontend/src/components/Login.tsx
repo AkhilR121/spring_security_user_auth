@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useSubmit } from "react-router-dom";
+import { Link, useActionData, useSubmit } from "react-router-dom";
 
 export function Login() {
   const {
@@ -14,6 +14,7 @@ export function Login() {
   });
 
   const submit = useSubmit();
+  const actionData = useActionData();
 
   const onSubmit = (data: { user_name: string; password: string }) => {
     const formData = new FormData();
@@ -25,8 +26,10 @@ export function Login() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="m-auto p-6 w-80 flex flex-col justify-center items-center border"
+      className="m-auto p-6 mt-80 w-80 flex flex-col justify-center items-center border"
     >
+      <header className="text-2xl font-bold">Login</header>
+      <p className="w-full text-red-500">{actionData?.error}</p>
       <main className="*:py-3">
         <div>
           <input
@@ -37,7 +40,7 @@ export function Login() {
             placeholder="Username"
           />
           {errors.user_name?.type === "minLength" && (
-            <p className="text-red-500">
+            <p className="text-red-500"> 
               Username must be at least 3 characters
             </p>
           )}

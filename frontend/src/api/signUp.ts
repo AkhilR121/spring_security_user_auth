@@ -18,7 +18,6 @@ export async function postLoginData(user_name: string, password: string) {
     user_name,
     password,
   });
-  const result = response.data;
-  localStorage.setItem("token", result.token);
-  return result;
+  localStorage.setItem("token", response.data.token);
+  return response.data;
 }

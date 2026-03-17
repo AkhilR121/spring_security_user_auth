@@ -55,12 +55,12 @@ app.post("/api/login", async (req: Request, res: Response) => {
   const users = await getUserByUsername(user_name);
 
   if (users.length === 0) {
-    return res.status(401).json({ message: "Invalid Credentials" });
+    return res.status(401).json({ message: "Invalid username or password" });
   }
 
   const user = users[0];
   if (user.password !== password) {
-    return res.status(401).json({ message: "Invalid Credentials" });
+    return res.status(401).json({ message: "Invalid username or password" });
   }
 
   jwt.sign(
@@ -75,18 +75,6 @@ app.post("/api/login", async (req: Request, res: Response) => {
     },
   );
 });
-
-// function verifyToken(req: CustomRequest, res: Response, next: NextFunction) {
-//   const bearerHeader = req.headers["authorization"];
-//   if (!bearerHeader) {
-//     return res.status(403).json({ message: "Token is required" });
-//   } else {
-//     const bearer = bearerHeader.split(" ");
-//     const bearerToken = bearer[1];
-//     req.token = bearerToken;
-//     next();
-//   }
-// }
 
 app.listen(5000, () => {
   console.log(`Server is running on port ${5000}`);

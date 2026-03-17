@@ -1,4 +1,5 @@
 import mysql from "mysql2";
+import { User } from "./model/model";
 
 const pool = mysql
   .createPool({
@@ -10,7 +11,7 @@ const pool = mysql
   .promise();
 
 
-export async function getUserByUsername(user_name: string) {
+export async function getUserByUsername(user_name: string):  Promise<User[]> {
   const [rows] = await pool.query(
     "SELECT * FROM user_credentials WHERE user_name = ?",
     [user_name],

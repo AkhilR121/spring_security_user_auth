@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
       } catch (error: any) {
         return {
           error:
-            error.response?.data?.message + "ErrorVachindi" || "Sign in failed",
+            error.response?.data?.message,
         };
       }
     },
