@@ -61,7 +61,7 @@ export function Login() {
           )}
         </div>
       </main>
-      <Link to={"/signup"} className="text-blue-700 w-full cursor-pointer ml-2">
+      <Link to={"/signup"} className="text-blue-700 w-full cursor-pointer ml-2 hover:underline">
         New User?
       </Link>
       <footer>
