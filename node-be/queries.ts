@@ -16,16 +16,10 @@ export async function getUserByUsername(user_name: string):  Promise<User[]> {
     "SELECT * FROM user_credentials WHERE user_name = ?",
     [user_name],
   );
-  return rows as any[];
+  return rows as User[];
 }
 
-export async function postUserCredentials(params: {
-  id: string;
-  user_name: string;
-  password: string;
-  phone_num: string;
-  email: string;
-}) {
+export async function postUserCredentials(params: User) {
   const [result] = await pool.query(
     "INSERT INTO user_credentials (id, user_name, email, password, phone_num) VALUES (?, ?, ?, ?, ?)",
     [

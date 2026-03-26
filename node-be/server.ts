@@ -1,9 +1,9 @@
 require("dotenv").config();
 
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 import { CustomRequest } from "./model/model";
 import { getUserByUsername, postUserCredentials } from "./queries";
 import { verifyToken } from "./middleware/verifyToken";
@@ -33,18 +33,17 @@ app.post("/api/auth-test", verifyToken, (req: CustomRequest, res: Response) => {
   });
 });
 
-app.post("/api/signup", (req: Request, res: Response) => {
+app.post("/api/signup", async (req: Request, res: Response) => {
   const { user_name, password, phone_num, email } = req.body;
-  const id = Math.floor(Math.random() * 1000).toString();
-  //@TODO: Before posting, need to check if the user already exists or not
-  postUserCredentials({ id, user_name, password, phone_num, email });
+  const id = uuidv4();
 
-  const user = {
-    user_name,
-    password,
-    phone_num,
-    email,
-  };
+  const users = await getUserByUsername(user_name);
+
+  //Validation if user already exists
+  if(users.length > 0) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+  postUserCredentials({ id, user_name, password, phone_num, email });
 
   res.json({ message: "User Registered Successfully", success: true });
 });
@@ -54,11 +53,13 @@ app.post("/api/login", async (req: Request, res: Response) => {
 
   const users = await getUserByUsername(user_name);
 
+  //UserName validation
   if (users.length === 0) {
     return res.status(401).json({ message: "Invalid username or password" });
   }
 
   const user = users[0];
+  //Password validation
   if (user.password !== password) {
     return res.status(401).json({ message: "Invalid username or password" });
   }
@@ -66,7 +67,7 @@ app.post("/api/login", async (req: Request, res: Response) => {
   jwt.sign(
     { userId: user.id, user_name: user.user_name },
     "secretkey",
-    { expiresIn: 60 },
+    { expiresIn: "1h" },
     (err: any, token?: string) => {
       if (err) {
         return res.status(500).json({ message: "Token generation failed" });
