@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 import { RootLayout } from "./layouts/RootLayout";
 import { Home } from "./pages/Home";
-import { postLoginData, postSignUpData } from "./api/signUp";
+import { postLoginData, postSignUpData } from "./api/api";
 import { Login } from "./components/Login";
 import { SignUp } from "./components/SignUp";
 
