@@ -1,61 +1,35 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { verifyToken } from "../api/api";
+import { useQuery } from "@tanstack/react-query";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [navigated, setNavigated] = useState(false);
+  const token = localStorage.getItem("token");
+  const isPublicRoute = window.location.pathname === "/login" || window.location.pathname === "/signup";
 
-  async function checkTokenExpiry() {
-    if (window.location.pathname === '/login') {
-      setIsLoading(false);
-      return;
+  const { isPending, isError, data } = useQuery({
+    queryKey: ["auth-check"],
+    queryFn: verifyToken,
+    retry: false,
+    staleTime: 0,
+    gcTime: 0,
+    enabled: !!token,
+  });
+
+  if (!token) {
+    if (!isPublicRoute) {
+      window.location.href = "/login";
     }
-    if (navigated) {
-      setIsLoading(false);
-      return;
-    }
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsAuthenticated(false);
-      setIsLoading(false);
-      if (!navigated) {
-        setNavigated(true);
-        window.location.href = "/login";
-      }
-      return;
-    }
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/auth-test`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setIsAuthenticated(true);
-    } catch (error) {
-      localStorage.removeItem("token");
-      setIsAuthenticated(false);
-      if (!navigated) {
-        setNavigated(true);
-        sessionStorage.setItem('redirected', 'true');
-        window.location.href = "/login";
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    return <>{children}</>;
+  }
+  
+  if (isError || !data?.authData) {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+    return null;
   }
 
-  useEffect(() => {
-    checkTokenExpiry();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isPending) {
+    return <div className="text-3xl font-bold">Loading...</div>;
   }
 
-  return <div>{isAuthenticated || window.location.pathname === '/login' ? children : null}</div>;
+  return <>{children}</>
 }

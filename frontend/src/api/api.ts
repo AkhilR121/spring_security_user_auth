@@ -24,7 +24,7 @@ export async function postLoginData(user_name: string, password: string) {
 }
 
 export async function verifyToken(): Promise<{message: string, authData: JWTAuthData | null}> {
-  const url  = `${import.meta.env.VITE_BASE_URL}/api/auth-test`
+  const url  = `${import.meta.env.VITE_BASE_URL}/auth-test`
   const token = localStorage.getItem("token")
 
   if (!token) {
