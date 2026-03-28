@@ -11,3 +11,10 @@ export interface User {
     phone_num: string;
     email: string;
 }
+
+export type VerifyAuthData = {
+    userId: string;
+    user_name: string;
+    iat: number;
+    exp: number;
+}

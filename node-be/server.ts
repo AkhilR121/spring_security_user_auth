@@ -4,7 +4,7 @@ import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
-import { CustomRequest } from "./model/model";
+import { CustomRequest, User, VerifyAuthData } from "./model/model";
 import { getUserByUsername, postUserCredentials } from "./queries";
 import { verifyToken } from "./middleware/verifyToken";
 
@@ -21,13 +21,13 @@ app.get("/api", (req: Request, res: Response) => {
 
 // verifyToken is the middleware function
 app.post("/api/auth-test", verifyToken, (req: CustomRequest, res: Response) => {
-  jwt.verify(req.token!, "secretkey", (err: any, authData: any) => {
+  jwt.verify(req.token!, "secretkey", (err, authData) => {
     if (err) {
       return res.status(403).json({ message: "Token is required" });
     } else {
       res.json({
-        message: "Post created!",
-        authData,
+        message: "Token is valid",
+        authData: authData as VerifyAuthData[],
       });
     }
   });
