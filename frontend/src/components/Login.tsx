@@ -35,10 +35,10 @@ export function Login() {
           </header>
           <p className="w-full text-red-500">{actionData?.error}</p>
           <main className="*:py-5">
-            <div>
+            <div className="w-88">
               <input
                 {...register("user_name", { required: true, minLength: 3 })}
-                className="p-1.5 border-b outline-none border-gray-400"
+                className="p-1.5 w-full border-b outline-none border-gray-400"
                 type="text"
                 id="user_name"
                 placeholder="Username"
@@ -52,10 +52,10 @@ export function Login() {
                 <p className="text-red-500">This is required field*</p>
               )}
             </div>
-            <div>
+            <div className="w-88">
               <input
                 {...register("password", { required: true })}
-                className="p-1.5 border-b outline-none border-gray-400"
+                className="p-1.5 w-full border-b outline-none border-gray-400"
                 type="password"
                 id="password"
                 placeholder="Password"
@@ -74,14 +74,14 @@ export function Login() {
           <footer>
             <button
               type="submit"
-              className="flex items-center justify-center w-full cursor-pointer p-3 border"
+              className="flex items-center justify-center w-full cursor-pointer text-xl font-medium text-white shadow-xl mt-10 rounded-full px-22 /py-3 bg-[#764DE7]"
             >
               Login
             </button>
           </footer>
         </div>
-      <div className="bg-blue-200 border w-96">Hi</div>
-      <div className="absolute right-0 bg-red-200 rounded-full w-20 h-20"></div>
+        <div className="bg-blue-200 border w-96">Hi</div>
+        <div className="absolute right-0 bg-red-200 rounded-full w-20 h-20"></div>
       </form>
       <div className="-top-56 -left-3/6 -z-10 absolute w-[73%] rounded-r-full h-[150vh] bg-[#764DE7]"></div>
     </div>
